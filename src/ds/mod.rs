@@ -1,8 +1,10 @@
-pub mod array;
-pub mod hash;
-pub mod heap;
-pub mod linked;
-pub mod queue;
-pub mod stack;
-pub mod tree;
-pub mod trie;
+mod array;
+mod hash;
+mod heap;
+mod linked;
+mod queue;
+mod stack;
+mod tree;
+mod trie;
+
+pub use array::*;
