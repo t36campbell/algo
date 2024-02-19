@@ -90,7 +90,7 @@ mod tests {
     fn e6() {
         let mut one = vec![1, 3, 5, 7];
         let mut two = vec![2, 4, 6, 8];
-        merge(&mut one, 3, &mut two, 3);
+        merge(&mut one, 4, &mut two, 4);
 
         assert_eq!(one.len(), 8);
         assert_eq!(one, vec![1, 2, 3, 4, 5, 6, 7, 8]);
