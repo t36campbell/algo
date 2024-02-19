@@ -1,7 +1,7 @@
 use crate::sort;
 
 /// Solution for LeetCode 88. Merge Sorted Array
-pub fn merge<'a>(nums1: &'a mut Vec<i32>, m: i32, nums2: &'a mut Vec<i32>, n: i32) {
+pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
     if m < nums1.len() as i32 {
         let binding = nums1.clone();
         let (n1, _) = binding.split_at(m as usize);
