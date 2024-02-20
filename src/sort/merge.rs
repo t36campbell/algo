@@ -22,10 +22,21 @@ where
     return merged;
 }
 
-/// Implementation of Merge Sort.
+/// ## Merge Sort
 ///  
 /// It recursively divides an array into smaller halves until each half contains only one element,
 /// then merges those halves together in sorted order.
+///
+/// Time Complexity:\
+///     - Best, Worst, Avg: *O(nlogn)\
+///
+/// ### Example
+/// ```rust
+/// let arr = vec![1, 3, 5, 7, 2, 4, 6, 8];
+/// let merged = sort::merge(arr);
+///
+/// assert_eq!(merged, vec![1, 2, 3, 4, 5, 6, 7, 8]);
+/// ```
 pub fn merge<T>(arr: Vec<T>) -> Vec<T>
 where
     T: Clone + Copy + PartialOrd + std::fmt::Debug,
@@ -41,4 +52,54 @@ where
     let right = merge(r.to_vec());
 
     return join(left, right);
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::sort;
+
+    #[test]
+    fn e1() {
+        let arr = vec![3, 6, 7, 1, 5, 9, 2, 8, 0, 0, 5, 8];
+        let merged = sort::merge(arr);
+
+        assert_eq!(merged, vec![0, 0, 1, 2, 3, 5, 5, 6, 7, 8, 8, 9]);
+    }
+
+    #[test]
+    fn e2() {
+        let arr = vec![
+            "executor",
+            "law",
+            "religion",
+            "eyeball",
+            "velocity",
+            "quartz",
+            "convection",
+            "wink",
+            "distortion",
+            "ecclesia",
+            "inhibition",
+            "secrecy",
+        ];
+        let merged = sort::merge(arr);
+
+        assert_eq!(
+            merged,
+            vec![
+                "convection",
+                "distortion",
+                "ecclesia",
+                "executor",
+                "eyeball",
+                "inhibition",
+                "law",
+                "quartz",
+                "religion",
+                "secrecy",
+                "velocity",
+                "wink"
+            ]
+        );
+    }
 }
