@@ -9,6 +9,7 @@ pub struct DynamicArray<'a, T> {
     len: usize,
 }
 
+#[cfg(not(tarpaulin_include))]
 impl<'a, T> Default for DynamicArray<'a, T>
 where
     T: Copy + Default,
@@ -18,6 +19,7 @@ where
     }
 }
 
+#[cfg(not(tarpaulin_include))]
 impl<'a, T> Array<T> for DynamicArray<'a, T> {
     // where the last item in memory is - not the actual length of the array
     fn len(&self) -> usize {
@@ -39,6 +41,7 @@ impl<'a, T> Array<T> for DynamicArray<'a, T> {
     }
 }
 
+#[cfg(not(tarpaulin_include))]
 impl<'a, T> DynamicArray<'a, T>
 where
     T: Copy + Default,
