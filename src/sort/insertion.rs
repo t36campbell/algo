@@ -1,6 +1,6 @@
 /// ## Insertion Sort
 ///
-/// It iterates through the array, removing one element at a time and 
+/// It iterates through the array, removing one element at a time and
 /// inserting it into the correct position in the already sorted part of the array.
 ///
 /// Time Complexity:\

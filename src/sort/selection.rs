@@ -1,7 +1,7 @@
 /// ## Selection Sort
 ///
-/// It repeatedly selects the smallest element from the unsorted portion of the array and 
-/// places it at the beginning of the sorted portion. 
+/// It repeatedly selects the smallest element from the unsorted portion of the array and
+/// places it at the beginning of the sorted portion.
 ///
 /// Time Complexity:\
 ///     - Best, Worst, Avg: *O(n^2)*\
