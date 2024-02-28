@@ -1,27 +1,3 @@
-fn join<T>(mut left: Vec<T>, mut right: Vec<T>) -> Vec<T>
-where
-    T: Copy + PartialOrd + std::fmt::Debug,
-{
-    let mut merged = Vec::<T>::new();
-
-    while !left.is_empty() && !right.is_empty() {
-        let a = left.first();
-        let b = right.first();
-
-        let val = if a <= b { a.unwrap() } else { b.unwrap() };
-        merged.push(*val);
-        if a <= b {
-            left.remove(0)
-        } else {
-            right.remove(0)
-        };
-    }
-
-    merged.append(&mut left);
-    merged.append(&mut right);
-    return merged;
-}
-
 /// ## Merge Sort
 ///  
 /// It recursively divides an array into smaller halves until each half contains only one element,
@@ -52,6 +28,30 @@ where
     let right = merge(r.to_vec());
 
     return join(left, right);
+}
+
+fn join<T>(mut left: Vec<T>, mut right: Vec<T>) -> Vec<T>
+where
+    T: Copy + PartialOrd + std::fmt::Debug,
+{
+    let mut merged = Vec::<T>::new();
+
+    while !left.is_empty() && !right.is_empty() {
+        let a = left.first();
+        let b = right.first();
+
+        let val = if a <= b { a.unwrap() } else { b.unwrap() };
+        merged.push(*val);
+        if a <= b {
+            left.remove(0)
+        } else {
+            right.remove(0)
+        };
+    }
+
+    merged.append(&mut left);
+    merged.append(&mut right);
+    return merged;
 }
 
 #[cfg(test)]
