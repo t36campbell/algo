@@ -40,13 +40,13 @@ where
         let a = left.first();
         let b = right.first();
 
-        let val = if a <= b { a.unwrap() } else { b.unwrap() };
-        merged.push(*val);
-        if a <= b {
+        let val = if a <= b {
             left.remove(0)
         } else {
             right.remove(0)
         };
+
+        merged.push(val);
     }
 
     merged.append(&mut left);
