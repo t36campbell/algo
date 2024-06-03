@@ -62,7 +62,7 @@ impl<'a, T> Array<T> for DynamicArray<'a, T> {
     fn len(&self) -> usize {
         todo!()
     }
-    
+
     /// the actual size fo the array
     fn capacity(&self) -> usize {
         todo!()
