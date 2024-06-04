@@ -107,10 +107,10 @@ mod tests {
         let not_found = search::binary(arr, 9);
         assert_eq!(not_found, -1);
     }
-    
+
     #[test]
     fn e8() {
-        let arr = vec![9,8,7,6,5,4,3,2,1,0];
+        let arr = vec![9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
         let found = search::binary(arr, 0);
         assert_eq!(found, 9);
     }
