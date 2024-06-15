@@ -1,1 +1,1 @@
-pub mod merge_sorted;
+pub mod lc_88;
