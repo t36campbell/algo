@@ -5,3 +5,6 @@ edition = "2021"
 
 [profile.release]
 debug = true
+
+[lints.clippy]
+needless_return = "allow"
