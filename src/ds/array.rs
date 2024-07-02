@@ -1,113 +1,205 @@
-/// 1. **Creation/Initialization**:
-///    - `new()`: Creates a new, empty vector.
-///    - `with_capacity(capacity: usize)`: Creates a new vector with the specified capacity.
-
-/// 2. **Adding/Removing Elements**:
-///    - `push(item: T)`: Appends an element to the end of the vector.
-///    - `pop() -> Option<T>`: Removes and returns the last element from the vector.
-///    - `insert(index: usize, element: T)`: Inserts an element at the specified index.
-///    - `remove(index: usize) -> T`: Removes and returns the element at the specified index.
-
-/// 3. **Accessing Elements**:
-///    - `get(index: usize) -> Option<&T>`: Returns a reference to the element at the specified index, or `None` if the index is out of bounds.
-///    - `get_mut(index: usize) -> Option<&mut T>`: Returns a mutable reference to the element at the specified index, or `None` if the index is out of bounds.
-///    - `first() -> Option<&T>`: Returns a reference to the first element, or `None` if the vector is empty.
-///    - `last() -> Option<&T>`: Returns a reference to the last element, or `None` if the vector is empty.
-
-/// 4. **Size/Capacity**:
-///    - `len() -> usize`: Returns the number of elements in the vector.
-///    - `is_empty() -> bool`: Returns `true` if the vector is empty, `false` otherwise.
-///    - `capacity() -> usize`: Returns the total capacity of the vector.
-
-/// 5. **Iteration**:
-///    - `iter() -> Iter<'_, T>`: Returns an iterator over the elements of the vector.
-///    - `iter_mut() -> IterMut<'_, T>`: Returns a mutable iterator over the elements of the vector.
-
-/// 6. **Searching/Sorting**:
-///    - `contains(&item: &T) -> bool`: Returns `true` if the vector contains the specified item, `false` otherwise.
-///    - `sort()`: Sorts the elements of the vector in ascending order.
-
-/// 7. **Conversion**:
-///    - `as_slice() -> &[T]`: Converts the vector into a slice.
-///    - `as_mut_slice() -> &mut [T]`: Converts the vector into a mutable slice.
-
-/// 8. **Concatenation**:
-///    - `append(&mut other: Vec<T>)`: Appends all elements from another vector to the end of this vector.
-
-pub trait Array<T> {
-    fn len(&self) -> usize;
-    fn capacity(&self) -> usize;
-    fn get(&self, index: usize) -> Option<&T>;
-    fn set(&mut self, value: T, index: usize);
-}
-
-pub struct DynamicArray<'a, T> {
-    array: &'a mut [Option<T>],
+/// An Implementation of a Dynamic Array that is similar to a Vec
+pub struct Array<T> {
+    array: Box<[Option<T>]>,
     len: usize,
 }
 
 #[cfg(not(tarpaulin_include))]
-impl<'a, T> Default for DynamicArray<'a, T>
+impl<'a, T> Default for Array<T>
 where
     T: Copy + Default,
 {
-    fn default() -> DynamicArray<'a, T> {
-        todo!()
+    fn default() -> Array<T> {
+        let array = Box::new([None; 64]);
+        Self::init(array)
     }
 }
 
 #[cfg(not(tarpaulin_include))]
-impl<'a, T> Array<T> for DynamicArray<'a, T> {
-    /// where the last item in memory is - not the actual length of the array
-    fn len(&self) -> usize {
-        todo!()
+impl<'a, T> Array<T>
+where
+    T: Copy + Default + Sized + 'a,
+{
+    fn init(array: Box<[Option<T>]>) -> Array<T> {
+        Self { array, len: 0 }
     }
 
-    /// the actual size fo the array
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    fn resize<const N: usize>(src: [Option<T>; N]) -> Box<[Option<T>]> {
+        let mut a = src.to_vec();
+        a.resize(N * 2, None);
+
+        return a.into_boxed_slice();
+    }
+
+    pub fn from<const N: usize>(src: [Option<T>; N]) -> Array<T> {
+        let array = Self::resize(src);
+
+        Self { array, len: N }
+    }
+
+    pub fn with_capacity(n: usize) -> Array<T> {
+        let array = vec![None; n].into_boxed_slice();
+        Self::init(array)
+    }
+
+    pub fn reserve(&mut self, additional: usize) {
+        let reserved = self.capacity() - self.len;
+        if reserved > additional {
+            return;
+        }
+
+        let len = reserved + additional;
+        let mut a = self.array.to_vec();
+        a.resize(len, None);
+        self.array = a.into_boxed_slice();
+    }
+
+    pub fn len(&self) -> usize {
+        self.len
+    }
+
     fn capacity(&self) -> usize {
+        self.array.len()
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.array.is_empty()
+    }
+
+    pub fn insert(&mut self, index: usize, element: T) {
         todo!()
     }
 
-    fn get(&self, index: usize) -> Option<&T> {
+    pub fn set(&mut self, value: T, index: usize) {
+        self.array[index] = Some(value)
+    }
+
+    pub fn push(&mut self, value: T) {
+        todo!()
+    }
+
+    pub fn pop(&mut self) -> Option<T> {
+        todo!()
+    }
+
+    pub fn append<const N: usize>(&mut self, other: [Option<T>; N]) {
+        todo!()
+    }
+
+    pub fn get(&self, index: usize) -> Option<&T> {
         if index > self.len {
             todo!("raise index out of bounds")
         }
+
         match self.array.get(index) {
             Some(v) => v.as_ref(),
             None => None,
         }
     }
 
-    fn set(&mut self, value: T, index: usize) {
-        self.array[index] = Some(value)
-    }
-}
-
-#[cfg(not(tarpaulin_include))]
-impl<'a, T> DynamicArray<'a, T>
-where
-    T: Copy + Default,
-{
-    fn init(array: Option<&'a mut [Option<T>]>) -> Self {
-        let array: &mut [Option<T>] = match array {
-            Some(a) => a,
-            None => Self::default().array,
-        };
-        Self { array, len: 0 }
+    pub fn get_mut(&self, index: usize) -> Option<&T> {
+        todo!()
     }
 
-    fn new() -> Self {
-        Self::init(None)
+    pub fn first(&self) -> Option<&T> {
+        todo!()
     }
 
-    fn size(&self) -> usize {
-        return self.array.len();
+    pub fn first_mut(&self) -> Option<&T> {
+        todo!()
+    }
+
+    pub fn last(&self) -> Option<&T> {
+        todo!()
+    }
+
+    pub fn last_mut(&self) -> Option<&T> {
+        todo!()
+    }
+
+    pub fn swap(&mut self, a: usize, b: usize) {
+        todo!()
+    }
+
+    pub fn to_vec(&self) -> Vec<T> {
+        todo!()
+    }
+
+    pub fn join(&self, char: char) -> String {
+        todo!()
+    }
+
+    pub fn remove(&mut self, index: usize) -> T {
+        todo!()
+    }
+
+    pub fn clear(&mut self) {
+        todo!()
+    }
+
+    pub fn iter(&self) {
+        todo!()
+    }
+
+    pub fn iter_mut(&self) {
+        todo!()
+    }
+
+    pub fn as_slice(&self) -> &[T] {
+        todo!()
+    }
+
+    pub fn as_mut_slice(&mut self) -> &mut [T] {
+        todo!()
+    }
+
+    pub fn drain(&mut self) {
+        todo!()
+    }
+
+    pub fn contains(&self, x: &T) -> bool {
+        todo!()
+    }
+
+    pub fn sort(&mut self) {
+        todo!()
+    }
+
+    pub fn sort_by<F>(&mut self, compare: F) {
+        todo!()
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::Array;
 
     #[test]
-    fn dynamic_array() {}
+    fn dynamic_array_new() {
+        let arr: Array<i32> = Array::new();
+
+        assert_eq!(arr.len(), 0);
+        assert_eq!(arr.capacity(), 64)
+    }
+
+    #[test]
+    fn dynamic_array_from() {
+        let src = [None; 2];
+        let arr: Array<i32> = Array::from(src);
+
+        assert_eq!(arr.len(), 2);
+        assert_eq!(arr.capacity(), 4)
+    }
+
+    #[test]
+    fn dynamic_array_with_capacity() {
+        let arr: Array<i32> = Array::with_capacity(36);
+
+        assert_eq!(arr.len(), 0);
+        assert_eq!(arr.capacity(), 36)
+    }
 }
