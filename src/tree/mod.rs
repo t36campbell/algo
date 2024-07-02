@@ -1,3 +1,1 @@
-mod huffman;
-
-pub use huffman::*;
+pub mod huffman;

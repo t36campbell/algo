@@ -1,3 +1,1 @@
-mod binary;
-
-pub use binary::*;
+pub mod binary;

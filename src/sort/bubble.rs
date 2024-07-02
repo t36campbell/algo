@@ -10,44 +10,46 @@
 ///
 /// ### Example
 /// ```rust
-/// use cs_prep::sort;
+/// use cs_prep::bubble;
 ///
 /// let arr = vec![1, 3, 5, 7, 2, 4, 6, 8];
-/// let sorted = sort::bubble(arr);
+/// let sorted = bubble::sort(arr);
 ///
 /// assert_eq!(sorted, vec![1, 2, 3, 4, 5, 6, 7, 8]);
 /// ```
-pub fn bubble<T>(mut arr: Vec<T>) -> Vec<T>
+pub fn sort<T>(mut array: Vec<T>) -> Vec<T>
 where
     T: Clone + Copy + PartialOrd + std::fmt::Debug,
 {
+    let len = array.len();
     let mut working = true;
     while working {
         working = false;
-        let mut clone = arr.clone();
-        for (i, a) in clone.iter_mut().enumerate() {
-            if arr.len() == i + 1 {
+        let mut arr = Vec::with_capacity(len);
+        arr.clone_from(&array);
+        for (i, a) in arr.iter_mut().enumerate() {
+            if array.len() == i + 1 {
                 continue;
             }
 
-            if a > &mut arr[i + 1] {
-                arr.swap(i, i + 1);
+            if a > &mut array[i + 1] {
+                array.swap(i, i + 1);
                 working = true
             }
         }
     }
 
-    return arr;
+    return array;
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::sort;
+    use crate::bubble;
 
     #[test]
     fn e1() {
         let arr = vec![3, 6, 7, 1, 5, 9, 2, 8, 0, 0, 5, 8];
-        let merged = sort::bubble(arr);
+        let merged = bubble::sort(arr);
 
         assert_eq!(merged, vec![0, 0, 1, 2, 3, 5, 5, 6, 7, 8, 8, 9]);
     }
@@ -68,7 +70,7 @@ mod tests {
             "inhibition",
             "secrecy",
         ];
-        let merged = sort::bubble(arr);
+        let merged = bubble::sort(arr);
 
         assert_eq!(
             merged,
