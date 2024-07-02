@@ -1,3 +1,4 @@
+/// Solution for LeetCode 486. Predict the Winner
 pub fn predict_the_winner(nums: Vec<i32>) -> bool {
     if nums.is_empty() {
         return true;
