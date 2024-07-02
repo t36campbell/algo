@@ -1,16 +1,16 @@
-use crate::sort;
+use crate::merge;
 
 /// Solution for LeetCode 88. Merge Sorted Array
 pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
     if m < nums1.len() as i32 {
-        let binding = nums1.clone();
+        let binding = get_binding(nums1);
         let (n1, _) = binding.split_at(m as usize);
         nums1.clear();
         nums1.append(&mut n1.to_vec());
     }
 
     if n < nums2.len() as i32 {
-        let binding = nums2.clone();
+        let binding = get_binding(nums2);
         let (n2, _) = binding.split_at(n as usize);
         nums2.clear();
         nums2.append(&mut n2.to_vec());
@@ -27,9 +27,17 @@ pub fn merge(nums1: &mut Vec<i32>, m: i32, nums2: &mut Vec<i32>, n: i32) {
     }
 
     nums1.append(nums2);
-    let mut merged = sort::merge(nums1.to_vec());
+    let mut merged = merge::sort(nums1.to_vec());
     nums1.clear();
     nums1.append(&mut merged);
+}
+
+fn get_binding(arr: &mut Vec<i32>) -> Vec<i32> {
+    let len = arr.len();
+    let mut binding = Vec::with_capacity(len);
+    binding.clone_from(arr);
+
+    binding
 }
 
 #[cfg(test)]
