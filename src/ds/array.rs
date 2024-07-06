@@ -70,20 +70,23 @@ where
         self.array.is_empty()
     }
 
-    pub fn insert(&mut self, index: usize, element: T) {
-        todo!()
+    pub fn insert(&mut self, index: usize, value: T) {
+        if index >= self.len {
+            return self.set(index, value);
+        }
     }
 
-    pub fn set(&mut self, value: T, index: usize) {
-        self.array[index] = Some(value)
+    fn set(&mut self, index: usize, value: T) {
+        self.array[index] = Some(value);
+        self.len += 1
     }
 
     pub fn push(&mut self, value: T) {
-        todo!()
+        self.set(self.len, value)
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        todo!()
+        self.remove(self.len)
     }
 
     pub fn append<const N: usize>(&mut self, other: [Option<T>; N]) {
@@ -92,7 +95,7 @@ where
 
     pub fn get(&self, index: usize) -> Option<&T> {
         if index > self.len {
-            todo!("raise index out of bounds")
+            return None;
         }
 
         match self.array.get(index) {
@@ -101,23 +104,30 @@ where
         }
     }
 
-    pub fn get_mut(&self, index: usize) -> Option<&T> {
-        todo!()
+    pub fn get_mut(&mut self, index: usize) -> Option<&mut T> {
+        if index > self.len {
+            return None;
+        }
+
+        match self.array.get_mut(index) {
+            Some(v) => v.as_mut(),
+            None => None,
+        }
     }
 
     pub fn first(&self) -> Option<&T> {
-        todo!()
+        self.get(0)
     }
 
-    pub fn first_mut(&self) -> Option<&T> {
-        todo!()
+    pub fn first_mut(&self) -> Option<&mut T> {
+        self.get_mut(0)
     }
 
     pub fn last(&self) -> Option<&T> {
         todo!()
     }
 
-    pub fn last_mut(&self) -> Option<&T> {
+    pub fn last_mut(&self) -> Option<&mut T> {
         todo!()
     }
 
@@ -133,7 +143,7 @@ where
         todo!()
     }
 
-    pub fn remove(&mut self, index: usize) -> T {
+    pub fn remove(&mut self, index: usize) -> Option<T> {
         todo!()
     }
 
